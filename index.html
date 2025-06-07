@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="pt-br"> <!-- Define o idioma como português brasileiro -->
+<html lang="pt-br"> <!-- define o idioma como português brasileiro -->
 <head>
-    <meta charset="UTF-8"> <!-- Configura a codificação para suportar acentuação -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Deixa o layout responsivo -->
-    <title>Calculadora - Pegada de Carbono</title>
+    <meta charset="UTF-8"> <!-- configura a codificação para suportar acentuação -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- deixa o layout responsivo -->
+    <title>Calculadora - Pegada de Carbono</title> <!-- adiciona o título que fica no navegador -->
 
-    <!-- Importando Tailwind direto da CDN (facilita usar classes utilitárias de CSS) -->
+    <!-- importando Tailwind direto da CDN (facilita usar classes utilitárias de css) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- CSS da biblioteca Shepherd para o tour interativo (usado mais à frente com o JS) -->
+    <!-- css da biblioteca Shepherd para o tour interativo (usado mais à frente com o JS) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/7.1.2/css/shepherd.min.css" integrity="sha512-k4DlYDc0mf1H92BOi4i/3VKmE2y5T5CuMAFGepXwYD39pmzeoJ7vIUM57esJkGtDNrWcX0V74cHPB/78415VdQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="bg-gradient-to-r from-violet-500 to-fuchsia-500"> <!-- Gradiente de fundo que vai do violeta ao fucsia-->
+<body class="bg-gradient-to-r from-violet-500 to-fuchsia-500"> <!-- gradiente de fundo que vai do violeta ao fucsia-->
 
     <div class="container mx-auto mt-8">
-        <!-- Centraliza o conteúdo com tamanho fixo -->
+        <!-- centraliza o conteúdo com tamanho fixo -->
         <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
             <div class="px-6 py-4">
                 <h1 class="text-xl font-semibold text-gray-800">Pegada de Carbono</h1>
                 <h2 class="text-md text-gray-600 mt-2">Calculadora Simplificada escopo 1</h2>
 
-                <!-- Formulário principal onde o usuário vai preencher os dados -->
+                <!-- formulário principal onde o usuário vai preencher os dados -->
                 <form id="carbonForm" class="mt-4">
-                    <!-- Entrada para quantidade de combustível -->
+                    <!-- entrada para quantidade de combustível -->
                     <label for="fuel" class="block text-sm font-medium text-gray-700">Quantidade de Combustível Usada (litros):</label>
                     <input type="number" id="fuel" name="fuel" required step="0.01" min="0" value="0.00"
                         class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500">
 
-                    <!-- Combustível: select com opções básicas -->
+                    <!-- seleção com opções básicas de combustível -->
                     <label for="fuelType" class="block mt-4 text-sm font-medium text-gray-700">Tipo de Combustível:</label>
                     <select id="fuelType" name="fuelType" class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500">
                         <option value="diesel">Diesel</option>
@@ -37,39 +37,39 @@
                         <option value="gnv">Gás Natural Veicular (GNV)</option>
                     </select>
 
-                    <!-- Entrada para distância percorrida -->
+                    <!-- entrada para distância percorrida -->
                     <label for="distance" class="block mt-4 text-sm font-medium text-gray-700">Distância Percorrida (km):</label>
                     <input type="number" id="distance" name="distance" required step="0.01" min="0" max="10000"
                         value="0.00"
                         class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500">
 
-                    <!-- Textos informativos com os dados usados para realizar o cálculo de emissão de carbono -->
+                    <!-- textos informativos com os dados usados para realizar o cálculo de emissão de carbono -->
                     <p class="mt-4 text-sm text-gray-600">Fator de emissão de carbono do combustível: 2.68kg CO2/l</p>
                     <p class="text-sm text-gray-600">Emissões de carbono por quilômetro: 0.12kg CO2/km</p>
 
-                    <!-- Botão que envia o cálculo -->
+                    <!-- botão que envia o cálculo -->
                     <button type="submit"
                         class="mt-4 w-full bg-indigo-500 text-white py-2 px-4 border border-transparent rounded-md shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Calcular
                     </button>
                 </form>
 
-                <!-- Botão para salvar os dados preenchidos -->
+                <!-- botão para salvar os dados preenchidos -->
                 <button id="saveDataBtn"
                     class="mt-4 w-full bg-green-500 text-white py-2 px-4 border border-transparent rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     Salvar Dados
                 </button>
 
-                <!-- Outro botão que carrega os dados salvos -->
+                <!-- outro botão que carrega os dados salvos -->
                 <button id="loadTableBtn"
                     class="mt-4 w-full bg-blue-500 text-white py-2 px-4 border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Carregar Tabela
                 </button>
 
-                <!-- Onde vai aparecer o resultado do cálculo -->
+                <!-- onde vai aparecer o resultado do cálculo -->
                 <div id="result" class="mt-4"></div>
 
-                <!-- E onde vai aparecer a lista de dados salvos (em forma de tabela ou blocos, dependendo do JS) -->
+                <!-- onde vai aparecer a lista de dados salvos (em forma de tabela ou blocos, dependendo do JS) -->
                 <div id="savedData" class="mt-8"></div>
             </div>
         </div>
@@ -84,7 +84,7 @@
     <!-- Shepherd: biblioteca pra fazer tour passo-a-passo pela interface -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/7.1.2/js/shepherd.min.js" integrity="sha512-Sy962BupVURsOoUAJWvZMJOurIl3F8ijnbO1Mx+t8cytaDCjK5TixnayZm3c8v0KSsn9AlTiy+wIL7zQlp1YKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- Script principal da lógica da calculadora -->
+    <!-- ccript principal da lógica da calculadora -->
     <script src="script.js"></script>
 </body>
 </html>
